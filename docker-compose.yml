@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./db/migrations/migration-v0001.sql:/docker-entrypoint-initdb.d/1.init.sql
+      - ./db/migrations/migration-v0002.sql:/docker-entrypoint-initdb.d/2.init.sql
+      - ./db/seeds/templates.sql:/docker-entrypoint-initdb.d/3.init.sql
+      - $HOME/docker/volumes/postgres/rhino-survey:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  web:
+    build: .
+    restart: unless-stopped
+    links:
+      - "db:database"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@database:5432/postgres
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
