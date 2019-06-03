@@ -101,7 +101,7 @@ class Survey extends Component {
                     return this.createSurvey(input, index, null)
                 })}
                 <button className={'width-60 button-submit'} onClick={this.handleSubmit}>Submit Survey</button>
-                <div className={'bottom16'}>ShOC-N Product</div>
+                <div className={'bottom16'}>A Chipmunk Production</div>
             </div>
         )
     }
