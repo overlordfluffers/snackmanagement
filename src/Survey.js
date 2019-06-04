@@ -25,7 +25,7 @@ class Survey extends Component {
         let payload = this.props.template
         let required = payload.template.map( (item) => {return item.optional !== true})
         let results = payload.template.map( (item) => {
-            if (item.type === 'free' || item.type === 'radio'){
+            if (item.type === 'free' || item.type === 'radio' || item.type === 'dropdown'){
                 return {name: item.name, results: ""}
             } else if (item.type === 'checkbox'){
                 return {name: item.name, results: []}
@@ -41,7 +41,7 @@ class Survey extends Component {
     handleChange = (event, name, groupName) => {
         if(groupName === null){
             let obj = this.state.results.find(o => o.name === name);
-            if(event.target.type === 'text' || event.target.type === 'radio'){
+            if(event.target.type === 'text' || event.target.type === 'radio' || event.target.type === 'select-one'){
                 obj.results = event.target.value
             } else if (event.target.type === 'checkbox') {
                 let index = obj.results.indexOf(event.target.value);
@@ -68,7 +68,7 @@ class Survey extends Component {
             )
         } else if(input.type === 'radio' || input.type === 'checkbox'){
             return(
-                <div className={'choice width-60'} id={`input-${index}`}>
+                <div className={`choice ${input.style} width-60`} id={`input-${index}`}>
                     <div className={'choice-name'}>{input.name}</div>
                     {input.options.map( (option, newIndex) => {
                         return(<div className={'selection'} id={`input-${index}-${newIndex}-parent`}>
@@ -76,6 +76,20 @@ class Survey extends Component {
                                     <label className={newIndex===input.options.length-1 ? 'border-bottom' : ''} htmlFor={`input-${index}-${newIndex}`}> {option}  </label><br/>
                                </div>)
                     })}
+                </div>
+            )
+        } else if(input.type === 'dropdown'){
+            return(
+                <div className={'free-text'} id={`input-${index}`}>
+                    <div className={'free-text__label'}>{input.name}</div>
+                    <div className={'select-list'}>
+                        <select className={'dropdown'} onChange={(e) => {this.handleChange(e,input.name, groupName)}}>
+                            <option value="" disabled selected>Select your option</option>
+                            {input.options.map( (option) => {
+                                return(<option value={option}> {option} </option> )
+                            })}
+                        </select>
+                    </div>
                 </div>
             )
         } else if(input.type === "group") {
@@ -100,7 +114,10 @@ class Survey extends Component {
             }
         }
         if (!stopPost){
-            await integratedBackend.postSurvey(this.state.name, this.state.results)
+            let success = await integratedBackend.postSurvey(this.state.name, this.state.results)
+            if (success.status === 200) {
+                this.props.setSuccess(success.status === 200)
+            }
         }
     }
 
@@ -119,7 +136,8 @@ class Survey extends Component {
 }
 
 Survey.propTypes = {
-    template: PropTypes.arrayOf(PropTypes.object)
+    template: PropTypes.arrayOf(PropTypes.object).isRequired,
+    setSuccess: PropTypes.func.isRequired
 }
 
 export default Survey;

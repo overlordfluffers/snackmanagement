@@ -6,6 +6,7 @@ const path = require('path');
 const ExtractTextPlugin  = require('extract-text-webpack-plugin');
 // Spits out an index.html file in the build
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 // Configure webpack
 const config = {
@@ -41,6 +42,9 @@ const config = {
             template: "./index.html",
             filename: "./index.html"
         }),
+        new CopyPlugin([
+            { from: 'src/assets', to: 'assets' },
+        ]),
         // Name the css file sent to the build folder style.css
         new ExtractTextPlugin({filename: 'style.css'})
     ]

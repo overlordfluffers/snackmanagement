@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import Survey from './Survey'
 import {integratedBackend} from './backend'
 import CreateTemplate from './CreateTemplate'
+import Success from './Success'
 
 class Home extends Component {
     constructor() {
@@ -12,7 +13,8 @@ class Home extends Component {
         // Define state
         this.state = {
             template: {},
-            surveys: []
+            surveys: [],
+            success: false,
         }
     }
     
@@ -37,24 +39,25 @@ class Home extends Component {
         this.setState({template})
     }
 
+    setSuccess = (value) => {
+        this.setState({success:value})
+    }
+
     render() {
         return (
             <div className="Home">
                 <h1>Survey Rhino</h1>
-                {/*<CreateTemplate/>*/}
                 <div className={'body'}>
-                    {this.isEmpty(this.state.template) &&<div className={'top-100'}>
+                    {!this.state.success && this.isEmpty(this.state.template) &&<div className={'top-100'}>
                         {this.state.surveys.map( (template) => {
                         return(
                             <div className={'survey-select'} onClick={() => {this.setTemplate(template)}}> {template.surveyname} </div>
                         )
                     })}
                     </div>}
-                    {!this.isEmpty(this.state.template) && <Survey template={this.state.template} />}
+                    {!this.state.success && !this.isEmpty(this.state.template) && <Survey template={this.state.template} setSuccess={this.setSuccess} />}
+                    {this.state.success && <Success/>}
                 </div>
-                {/*<div className="footer">*/}
-                {/*    <p>Footer</p>*/}
-                {/*</div>*/}
             </div>
         )
     }
