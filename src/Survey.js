@@ -25,8 +25,10 @@ class Survey extends Component {
         let payload = this.props.template
         let required = payload.template.map( (item) => {return item.optional !== true})
         let results = payload.template.map( (item) => {
-            if (item.type !== 'group'){
+            if (item.type === 'free' || item.type === 'radio'){
                 return {name: item.name, results: ""}
+            } else if (item.type === 'checkbox'){
+                return {name: item.name, results: []}
             } else if (item.type === 'group'){
                 return {name: item.name, children: item.children.map( (item) => {
                     return {name: item.name, results: ""}
@@ -39,7 +41,16 @@ class Survey extends Component {
     handleChange = (event, name, groupName) => {
         if(groupName === null){
             let obj = this.state.results.find(o => o.name === name);
-            obj.results = event.target.value
+            if(event.target.type === 'text' || event.target.type === 'radio'){
+                obj.results = event.target.value
+            } else if (event.target.type === 'checkbox') {
+                let index = obj.results.indexOf(event.target.value);
+                if (index !== -1) {
+                    obj.results.splice(index, 1);
+                } else  {
+                    obj.results.push(event.target.value)
+                }
+            }
         } else {
             let obj = this.state.results.find(o => o.name === groupName);
             let obj2 = obj.children.find(o => o.name === name);
@@ -55,18 +66,18 @@ class Survey extends Component {
                     <input className={'free-text__input'} id={`input-${index}-0`} onChange={(e) => {this.handleChange(e,input.name, groupName)}} type={'text'}/>
                 </div>
             )
-        } else if(input.type === 'choice'){
+        } else if(input.type === 'radio' || input.type === 'checkbox'){
             return(
                 <div className={'choice width-60'} id={`input-${index}`}>
                     <div className={'choice-name'}>{input.name}</div>
                     {input.options.map( (option, newIndex) => {
                         return(<div className={'selection'} id={`input-${index}-${newIndex}-parent`}>
-                                    <input type="radio" name={`input-${index}`} id={`input-${index}-${newIndex}`} onChange={(e) => {this.handleChange(e,input.name, groupName)}} value={option}/>
+                                    <input type={input.type} name={`input-${index}`} id={`input-${index}-${newIndex}`} onChange={(e) => {this.handleChange(e,input.name, groupName)}} value={option}/>
                                     <label className={newIndex===input.options.length-1 ? 'border-bottom' : ''} htmlFor={`input-${index}-${newIndex}`}> {option}  </label><br/>
                                </div>)
                     })}
                 </div>
-                )
+            )
         } else if(input.type === "group") {
             return (
                 <div className={'width-60'}>
@@ -101,7 +112,7 @@ class Survey extends Component {
                     return this.createSurvey(input, index, null)
                 })}
                 <button className={'width-60 button-submit'} onClick={this.handleSubmit}>Submit Survey</button>
-                <div className={'bottom16'}>A Chipmunk Production</div>
+                <div className={'bottom16'}>🐿</div>
             </div>
         )
     }

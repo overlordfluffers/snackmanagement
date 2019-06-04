@@ -120,12 +120,20 @@ h1{
     background-color: #5fc0dc;
 }
 
+.choice .selection input[type=checkbox] {
+    display: none;
+}
+
+.choice .selection input[type=checkbox]:checked ~ label {
+    background-color: #336699;
+}
+
 .choice .selection input[type=radio] {
     display: none;
 }
 
 .choice .selection input[type=radio]:checked ~ label {
-    background-color: #f1592a;
+    background-color: #336699;
 }
 
 .border-bottom{
