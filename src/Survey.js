@@ -108,11 +108,15 @@ class Survey extends Component {
     handleSubmit = async () => {
         console.log("POSTING THE SURVEY SIR")
         let stopPost = false
-        for (let item in this.state.required){
-            if(this.state.required[item] === true && (this.state.results[item] === null || this.state.results[item] === '' || this.state.results[item] === undefined)){
-                stopPost = true
-            }
-        }
+        // console.log('=====================>', this.state.results)
+        // for (let item in this.state.results){
+        //     if(this.state.template[item].optional === false){
+        //         console.log('=====================>', typeof this.state.results[item].results)
+        //         if(typeof this.state.results[item].results === 'string' && (this.state.results[item].results === "" || this.state.results[item].results === null || this.state.results[item].results === undefined)){
+        //             stopPost = true
+        //         }
+        //     }
+        // }
         if (!stopPost){
             let success = await integratedBackend.postSurvey(this.state.name, this.state.results)
             if (success.status === 200) {
