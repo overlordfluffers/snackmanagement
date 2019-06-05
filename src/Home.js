@@ -43,10 +43,14 @@ class Home extends Component {
         this.setState({success:value})
     }
 
+    goHome = () => {
+        this.setState({template: {},success: false,})
+    }
+
     render() {
         return (
             <div className="Home">
-                <h1>Survey Rhino</h1>
+                <h1 onClick={this.goHome}>Survey Rhino</h1>
                 <div className={'body'}>
                     {!this.state.success && this.isEmpty(this.state.template) &&<div className={'top-100'}>
                         {this.state.surveys.map( (template) => {

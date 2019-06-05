@@ -61,15 +61,15 @@ class Survey extends Component {
     createSurvey = (input, index, groupName) => {
         if(input.type === 'free'){
             return(
-                <div className={'free-text'} id={`input-${index}`}>
-                    <div className={'free-text__label'}>{input.name}</div>
+                <div className={`free-text ${input.blank ? 'blank' : ''}`} id={`input-${index}`}>
+                    <div className={'free-text__label label'}>{`${input.name}${input.optional ? '':'*'}`}</div>
                     <input className={'free-text__input'} id={`input-${index}-0`} onChange={(e) => {this.handleChange(e,input.name, groupName)}} type={'text'}/>
                 </div>
             )
         } else if(input.type === 'radio' || input.type === 'checkbox'){
             return(
                 <div className={`choice ${input.style} width-60`} id={`input-${index}`}>
-                    <div className={'choice-name'}>{input.name}</div>
+                    <div className={'choice-name label'}>{`${input.name}${input.optional ? '':'*'}`}</div>
                     {input.options.map( (option, newIndex) => {
                         return(<div className={'selection'} id={`input-${index}-${newIndex}-parent`}>
                                     <input type={input.type} name={`input-${index}`} id={`input-${index}-${newIndex}`} onChange={(e) => {this.handleChange(e,input.name, groupName)}} value={option}/>
@@ -81,7 +81,7 @@ class Survey extends Component {
         } else if(input.type === 'dropdown'){
             return(
                 <div className={'free-text'} id={`input-${index}`}>
-                    <div className={'free-text__label'}>{input.name}</div>
+                    <div className={'free-text__label label'}>{`${input.name}${input.optional ? '':'*'}`}</div>
                     <div className={'select-list'}>
                         <select className={'dropdown'} onChange={(e) => {this.handleChange(e,input.name, groupName)}}>
                             <option value="" disabled selected>Select your option</option>
@@ -106,19 +106,34 @@ class Survey extends Component {
     }
 
     handleSubmit = async () => {
-        console.log("POSTING THE SURVEY SIR")
         let stopPost = false
-        // console.log('=====================>', this.state.results)
-        // for (let item in this.state.results){
-        //     if(this.state.template[item].optional === false){
-        //         console.log('=====================>', typeof this.state.results[item].results)
-        //         if(typeof this.state.results[item].results === 'string' && (this.state.results[item].results === "" || this.state.results[item].results === null || this.state.results[item].results === undefined)){
-        //             stopPost = true
-        //         }
-        //     }
-        // }
+        let template = this.state.template
+        let results = this.state.results
+        for (let item in results){
+            if(template[item].optional === false){
+                if(typeof results[item].results === 'string' && (results[item].results === "" || results[item].results === null || results[item].results === undefined)){
+                    template[item].blank = true
+                    stopPost = true
+                } else if(typeof results[item].results === 'object' && (results[item].results.length === 0 || results[item].results === null || results[item].results === undefined)){
+                    template[item].blank = true
+                    stopPost = true
+                }
+            } else if(template[item].children){
+                for (let item2 in template[item].children){
+                    if(typeof results[item].children[item2].results === 'string' && (results[item].children[item2].results === "" || results[item].children[item2].results === null || results[item].children[item2].results === undefined)){
+                        template[item].children[item2].blank = true
+                        stopPost = true
+                    } else if(typeof results[item].children[item2].results === 'object' && (results[item].children[item2].results.length === 0 || results[item].children[item2].results === null || results[item].children[item2].results === undefined)){
+                        template[item].children[item2].blank = true
+                        stopPost = true
+                    }
+                }
+            }
+        }
+        this.setState({template})
         if (!stopPost){
-            let success = await integratedBackend.postSurvey(this.state.name, this.state.results)
+            console.log("POSTING THE SURVEY SIR")
+            let success = await integratedBackend.postSurvey(this.state.name, results)
             if (success.status === 200) {
                 this.props.setSuccess(success.status === 200)
             }
@@ -129,6 +144,7 @@ class Survey extends Component {
         return (
             <div className="Survey">
                 <h3 className={'survey-name'}>{this.state.name}</h3>
+                <div className={'notice-red width-60'}>* Required field</div>
                 {this.state.template.map((input, index)=>{
                     return this.createSurvey(input, index, null)
                 })}

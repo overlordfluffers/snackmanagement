@@ -40,6 +40,7 @@ h1{
     margin-top: 10%;
     color: #c5c6c7;
     font-size: 60px;
+    cursor: pointer;
 }
 
 .survey-name{
@@ -130,6 +131,7 @@ h1{
     color: #ffffff;
     padding: 0.5em;
     cursor: pointer;
+    text-align: -webkit-center;
 }
 
 .choice.inline .selection{
@@ -143,6 +145,7 @@ h1{
     color: #ffffff;
     padding: 0.5em;
     cursor: pointer;
+    text-align: -webkit-center;
 }
 
 .choice .selection label:hover {
@@ -284,6 +287,15 @@ h1{
 .bottom16{
     color: gray;
     margin: 16px;
+}
+
+.blank>.label{
+    background-color: #ff6666;
+}
+
+.notice-red{
+    color: #ff6666;
+    font-size: 14px;
 }
 
 /*
