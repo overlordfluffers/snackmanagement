@@ -49,6 +49,10 @@ h1{
     cursor: pointer;
 }
 
+h3{
+    color:white;
+}
+
 .survey-name{
     margin-bottom: 16px;
     font-size: 40px;
@@ -141,6 +145,7 @@ h1{
     color: #ffffff;
     padding: 1em 0.5em;
     cursor: pointer;
+    align-items: stretch;
 }
 
 .choice .selection .left {
@@ -270,6 +275,7 @@ h1{
 .selection.scale > label{
     width: 100%;
     font-size: 14px;
+    display: flex;
 }
 
 .survey-select{

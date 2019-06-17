@@ -23,10 +23,6 @@ class Success extends Component {
     }
 
     setSuccess = () => {
-        console.log('=====================> prop id', typeof this.props.id)
-        console.log('=====================> prop id', this.props.id)
-        console.log('=====================> new id', typeof this.state.newId)
-        console.log('=====================> new id', this.state.newId)
         if(this.props.id === this.state.newId){
             this.setState({success:true})
         }

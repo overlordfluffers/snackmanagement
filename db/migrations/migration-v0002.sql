@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS surveystemplates;
+DROP TABLE IF EXISTS surveytemplates;
 
 CREATE TABLE IF NOT EXISTS surveytemplates (
        id BIGSERIAL PRIMARY KEY,

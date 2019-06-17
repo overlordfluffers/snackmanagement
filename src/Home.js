@@ -45,6 +45,7 @@ class Home extends Component {
         this.setState({success:value})
     }
     setId = (value) => {
+        localStorage.setItem('id', value)
         this.setState({id:value})
     }
 
@@ -56,6 +57,7 @@ class Home extends Component {
         return (
             <div className="Home">
                 <h1 onClick={this.goHome}>Survey Rhino</h1>
+                {localStorage.id && <h3>{`Your ID is ${localStorage.id}`}</h3>}
                 <div className={'body'}>
                     {!this.state.success && this.isEmpty(this.state.template) &&<div className={'top-100'}>
                         {this.state.surveys.map( (template) => {
