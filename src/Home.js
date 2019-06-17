@@ -15,7 +15,7 @@ class Home extends Component {
             template: {},
             surveys: [],
             confirm: false,
-            success: true,
+            success: false,
             id:0,
         }
     }
