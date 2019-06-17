@@ -14,7 +14,9 @@ class Home extends Component {
         this.state = {
             template: {},
             surveys: [],
-            success: false,
+            confirm: false,
+            success: true,
+            id:0,
         }
     }
     
@@ -42,6 +44,9 @@ class Home extends Component {
     setSuccess = (value) => {
         this.setState({success:value})
     }
+    setId = (value) => {
+        this.setState({id:value})
+    }
 
     goHome = () => {
         this.setState({template: {},success: false,})
@@ -59,8 +64,8 @@ class Home extends Component {
                         )
                     })}
                     </div>}
-                    {!this.state.success && !this.isEmpty(this.state.template) && <Survey template={this.state.template} setSuccess={this.setSuccess} />}
-                    {this.state.success && <Success/>}
+                    {!this.state.success && !this.isEmpty(this.state.template) && <Survey template={this.state.template} setSuccess={this.setSuccess} setId={this.setId}/>}
+                    {this.state.success && <Success id={this.state.id}/>}
                 </div>
             </div>
         )

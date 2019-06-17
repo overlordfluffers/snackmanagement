@@ -15,9 +15,15 @@ body{
     display: flex;
     flex-direction: column;
     background-color: #1f2833;
-    font-family: Courier;
+    font-family: Courier, serif;
     height: 100%;
 }
+
+strong{
+    color: #45a29e;
+    font-size: 18px;
+}
+
 #root{
     min-height: 100%;
     height: 100%;
@@ -78,6 +84,10 @@ h1{
     border-top-right-radius: 8px;
 }
 
+.choice{
+    margin-bottom: 16px;
+}
+
 .width-60{
     width: 60%;
     margin-top: 8px;
@@ -123,22 +133,27 @@ h1{
     margin-top: 0px;
 }
 
-.choice .selection label {
+.choice .selection .markdown {
     display: inline-block;
     width: calc(100% - 1em - 4px);
     border: solid 2px #45a29e;
     border-top: none;
     color: #ffffff;
-    padding: 0.5em;
+    padding: 1em 0.5em;
     cursor: pointer;
-    text-align: -webkit-center;
+}
+
+.choice .selection .left {
+    text-align: start;
+}.choice .selection .center {
+    text-align: center;
 }
 
 .choice.inline .selection{
     width:calc((100% - 160px)/3);
 }
 
-.choice.inline .selection label {
+.choice.inline .selection .markdown {
     display: inline-block;
     border: solid 2px #45a29e;
     border-left: none;
@@ -148,15 +163,15 @@ h1{
     text-align: -webkit-center;
 }
 
-.choice .selection label:hover {
-    background-color: #5fc0dc;
+.choice .selection .markdown:hover {
+    background-color: #832433;
 }
 
 .choice .selection input[type=checkbox] {
     display: none;
 }
 
-.choice .selection input[type=checkbox]:checked ~ label {
+.choice .selection input[type=checkbox]:checked ~ label .markdown {
     background-color: #336699;
 }
 
@@ -164,12 +179,20 @@ h1{
     display: none;
 }
 
-.choice .selection input[type=radio]:checked ~ label {
+.choice .selection input[type=radio]:checked ~ label .markdown {
     background-color: #336699;
 }
 
 .border-bottom{
     border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.border-bottom-right{
+    border-bottom-right-radius: 8px;
+}
+
+.border-bottom-left{
     border-bottom-left-radius: 8px;
 }
 
@@ -239,6 +262,16 @@ h1{
     margin-top: 100px;
 }
 
+.scale{
+    display: inline-flex;
+    width: 100%;
+}
+
+.selection.scale > label{
+    width: 100%;
+    font-size: 14px;
+}
+
 .survey-select{
     width: 60%;
     margin: 16px auto 16px auto;
@@ -247,6 +280,7 @@ h1{
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    text-align: -webkit-center;
     font-size:1.8em;
     background-color: #45a29e;
     cursor: pointer;
@@ -313,6 +347,16 @@ h1{
     align-items: center;
 }
 
+.phase{
+    min-height: 100%;
+    height: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .success-icon{
     margin:50px;
     width: 400px;
@@ -321,14 +365,44 @@ h1{
     color:white;
     font-size: 24px;
 }
+
+.success-id{
+    color:red;
+    font-size: 32px;
+}
 .success-body{
     margin: 8px;
     color:white;
     font-size: 16px;
+    text-align: center;
 }
 .success-time{
     color:gray;
     font-size: 16px;
+}
+
+.success__button{
+    margin-top: 16px;
+}
+
+.success__input{
+    font-size: .8em;
+    width: calc(50% - 176px);
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.textbox > textarea{
+    width: 100%;
+    font-size: 16px;
+    font-family: Courier, serif;
+    background-color: #1f2833;
+    color: #c5c6c7;
+    padding: 8px;
+    border: 2px solid #45a29e;
+    resize: none;
 }
 
 
@@ -362,10 +436,26 @@ h1{
     .border-bottom{
         border-radius:0;
     }
+    .border-bottom-left{
+        border-radius:0;
+    }
+    .border-bottom-right{
+        border-radius:0;
+    }
     .choice-name{
         border-radius:0;
     }
     .select-list select{
         border-radius: 0;
+    }
+    .scale{
+        display: block
+    }
+    .success-icon{
+        margin:50px;
+        width: 200px;
+    }
+    .success__input{
+        width:60%;
     }
 }

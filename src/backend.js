@@ -42,6 +42,16 @@ class Backend {
             console.log(err);
         });
     }
+    fetchSr = (id) => {
+        return axios({
+            method: 'GET',
+            url: '/api/template/'+id
+        }).then(data => {
+            return data.data
+        }).catch(err => {
+            console.log(err);
+        });
+    }
 }
 
 export default Backend
