@@ -13,15 +13,26 @@ class Backend {
         });
     }
 
-    postSurvey = (name, results) => {
+    postSurvey = (name, results, uid) => {
         return axios.post('/api/surveys/addSurvey',{
+            uid: uid,
             survey: name,
             results: results
         }).catch(err => {
             console.log(err);
         });
     }
-    
+
+    fetchSurveyByName = (name) => {
+        return axios({
+            method: 'GET',
+            url: '/api/surveys/name/'+name
+        }).then(data => {
+            return data.data
+        }).catch(err => {
+            console.log(err);
+        });
+    }
     fetchAllTemplates = () => {
         return axios({
             method: 'GET',

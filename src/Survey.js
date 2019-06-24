@@ -34,6 +34,8 @@ class Survey extends Component {
                 return {name: item.name, children: item.children.map( (item) => {
                     return {name: item.name, results: ""}
                 })}
+            } else if (item.type === 'matrix'){
+                return {name: 'Matrix', children: item.values.map((value) =>{ return {name: value.name, results: ""}})}
             }
         })
         this.setState({name:payload.surveyname, required, template: payload.template, results})
@@ -119,20 +121,42 @@ class Survey extends Component {
             )
         } else if(input.type === 'matrix'){
             return(
-                <div className={`choice textbox width-60 ${input.blank ? 'blank' : ''}`} id={`input-${index}`}>
-                    <table>
+                <div className={`choice textbox width-80`} id={`input-${index}`}>
+                    <table className={'matrix-desktop'}>
                         <tr>
-                            <th>options</th>
-                            {input.options.map((option) => {
-                                return(<th>{option.text}</th>)
-                            })}
+                            <th>Options</th>
+                            {input.options.map((option) => {return(<th>{option.text}</th>)})}
                         </tr>
                         {input.values.map((value)=>{
                             return(<tr>
-                                <div></div>
+                                <td className={`${value.blank ? 'blank' : ''}`}>{value.name}</td>
+                                {input.options.map((option)=>{
+                                    return(
+                                        <td >
+                                            <input type={'radio'} onChange={(e) => {this.handleChange(e, value.name, 'Matrix')}} name={value.name} value={option.value}/>
+                                        </td>
+                                    )
+                                })}
                             </tr>)
                         })}
                     </table>
+                    <div className={'matrix-mobile'}>
+                        {input.values.map((value)=>{
+                            return(
+                                <div className={`free-text ${value.blank ? 'blank' : ''}`}>
+                                    <div className={`free-text__label label matrix-label`}>{`${value.name}${input.optional ? '':'*'}`}</div>
+                                    <div className={'select-list'}>
+                                        <select className={'dropdown'} onChange={(e) => {this.handleChange(e,value.name, 'Matrix')}}>
+                                            <option value="" disabled selected>Select your option</option>
+                                            {input.options.map( (option) => {
+                                                return(<option value={option.value}> {option.text} </option> )
+                                            })}
+                                        </select>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
             )
         } else if(input.type === "group") {
@@ -168,6 +192,18 @@ class Survey extends Component {
                 } else if(typeof results[item].results === 'object' && (results[item].results.length === 0 || results[item].results === null || results[item].results === undefined)){
                     template[item].blank = true
                     stopPost = true
+                } else if (template[item].values && template[item].values.length > 0) {
+                    for (let item2 in template[item].values){
+                        if(typeof results[item].children[item2].results === 'string' && (results[item].children[item2].results === "" || results[item].children[item2].results === null || results[item].children[item2].results === undefined)){
+                            template[item].values[item2].blank = true
+                            stopPost = true
+                        } else if(typeof results[item].children[item2].results === 'object' && (results[item].children[item2].results.length === 0 || results[item].children[item2].results === null || results[item].children[item2].results === undefined)){
+                            template[item].values[item2].blank = true
+                            stopPost = true
+                        } else {
+                            template[item].values[item2].blank = false
+                        }
+                    }
                 } else {
                     template[item].blank = false
                 }
@@ -180,7 +216,7 @@ class Survey extends Component {
                         template[item].children[item2].blank = true
                         stopPost = true
                     } else {
-                        template[item].blank = false
+                        template[item].children[item2].blank = false
                     }
                 }
             }
@@ -188,12 +224,11 @@ class Survey extends Component {
         this.setState({template})
         if (!stopPost){
             console.log("POSTING THE SURVEY SIR")
-            let success = await integratedBackend.postSurvey(this.state.name, results)
+            let success = await integratedBackend.postSurvey(this.state.name, results, localStorage.id ? localStorage.id : -1)
             if (success.status === 200) {
                 if(this.props.template.generate_id){
+                    this.props.setConfirm(true)
                     this.props.setId(this.formatNumberLength(success.data.data.id, 5))
-                } else {
-                    this.props.setId(-1)
                 }
                 this.props.setSuccess(success.status === 200)
             }
@@ -216,8 +251,9 @@ class Survey extends Component {
 }
 
 Survey.propTypes = {
-    template: PropTypes.arrayOf(PropTypes.object).isRequired,
+    template: PropTypes.object.isRequired,
     setSuccess: PropTypes.func.isRequired,
+    setConfirm: PropTypes.func.isRequired,
     setId: PropTypes.func.isRequired
 }
 

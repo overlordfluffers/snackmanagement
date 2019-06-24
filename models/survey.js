@@ -26,7 +26,7 @@ Survey.findById = (id) => {
 };
 
 Survey.findByName = (name) => {
-    return db.oneOrNone(
+    return db.query(
         `
       SELECT * FROM surveys
       WHERE survey = $1
@@ -36,12 +36,12 @@ Survey.findByName = (name) => {
 };
 
 // Insert a survey results into the database
-Survey.addSurvey = (survey, results) => {
+Survey.addSurvey = (uid, survey, results) => {
     return db.oneOrNone(`
-            INSERT INTO surveys(survey, results) 
-            VALUES($1, $2)
+            INSERT INTO surveys(uid, survey, results) 
+            VALUES($1, $2, $3)
             RETURNING id
-        `, [survey, JSON.stringify(results)])
+        `, [parseInt(uid),survey , JSON.stringify(results)])
 }
 
 // Export the Survey object

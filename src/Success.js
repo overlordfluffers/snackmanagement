@@ -25,6 +25,7 @@ class Success extends Component {
     setSuccess = () => {
         if(this.props.id === this.state.newId){
             this.setState({success:true})
+            this.props.setConfirm(false)
         }
     }
 
@@ -35,7 +36,7 @@ class Success extends Component {
     render() {
         return (
             <div className="Success-parent">
-                {this.props.id !== -1 && !this.state.success && <div className={"Success"}>
+                {this.props.confirm && <div className={"Success"}>
                     <img className={'success-icon'} src="assets/stopsign.png" alt={'success'}/>
                     <div className={'success-id'}>{`Your ID is ${this.props.id}`}</div>
                     <div className={'success-body'}>In order to keep surveys anonymous we have given you <br/> a random id. Please write this down as further surveys will ask you <br/> for this id</div>
@@ -43,7 +44,7 @@ class Success extends Component {
                     <input className={'success__input'} onChange={(e) => {this.handleChange(e)}} type={'text'}/>
                     <button className={'success__button button-submit'} onClick={this.setSuccess}>Yes, I wrote my Id down!</button>
                 </div>}
-                {(this.props.id === -1 || this.state.success) && <div className={"Success"}>
+                {!this.props.confirm && <div className={"Success"}>
                     <img className={'success-icon'} src="assets/Success.png" alt={'success'}/>
                     <div className={'success-title'}>Survey Submitted</div>
                     <div className={'success-body'}>Please take this to the front deck to receive your badge <br/> or screenshot if you completed this survey ahead of time</div>
@@ -56,7 +57,9 @@ class Success extends Component {
 };
 
 Success.propTypes = {
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    confirm: PropTypes.bool.isRequired,
+    setConfirm: PropTypes.func.isRequired,
 }
 
 export default Success;

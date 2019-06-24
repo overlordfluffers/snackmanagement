@@ -16,7 +16,7 @@ surveyRouter.get('/', surveyController.findAll);
 // Request single survey, send it to the /:id route
 surveyRouter.get('/:id', surveyController.findById);
 
-surveyRouter.get('/:name', surveyController.findByName);
+surveyRouter.get('/name/:name', surveyController.findByName);
 
 // Request to add a single survey to the DB
 surveyRouter.post('/addSurvey', surveyController.addSurvey)

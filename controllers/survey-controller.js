@@ -63,7 +63,7 @@ surveyController.findByName = (req, res) => {
 // Controller method for inserting a survey into the table
 surveyController.addSurvey = (req, res) => {
     // Surveys method for adding a result to the server
-    Survey.addSurvey(req.body.survey, req.body.results)
+    Survey.addSurvey(req.body.uid, req.body.survey, req.body.results)
         .then(id =>{
             res.status(200).json({
                 message: "Success",
