@@ -15,6 +15,7 @@ class Survey extends Component {
             template: [],
             results: [],
             required: [],
+            tempId: -1,
         }
     }
 
@@ -116,7 +117,7 @@ class Survey extends Component {
             return(
                 <div className={`choice textbox width-60 ${input.blank ? 'blank' : ''}`} id={`input-${index}`}>
                     <div className={'choice-name label'}>{`${input.name}${input.optional ? '':'*'}`}</div>
-                    <textarea rows="6"/>
+                    <textarea placeholder={'(Enter some comments here)'} rows="6"/>
                 </div>
             )
         } else if(input.type === 'matrix'){
@@ -235,11 +236,22 @@ class Survey extends Component {
         }
     }
 
+    handleIdChange = (e) =>{
+        this.setState({tempId:e})
+    }
+
     render() {
         return (
             <div className="Survey">
                 <h3 className={'survey-name'}>{this.state.name}</h3>
                 <div className={'notice-red width-60'}>* Required field</div>
+                {this.props.allowIdSet && <div className={'width-60'}>
+                    <h3>{`Please Enter Your ID`}</h3>
+                    <div className={'insert-parent'}>
+                        <input type={'number'} className={'insert-id'} onChange={(e) => {this.handleIdChange(e.target.value)}}/>
+                        <button className={'insert-button'} onClick={() => {this.props.setId(this.state.tempId)}}>Set ID</button>
+                    </div>
+                </div>}
                 {this.state.template.map((input, index)=>{
                     return this.createSurvey(input, index, null)
                 })}
@@ -254,7 +266,9 @@ Survey.propTypes = {
     template: PropTypes.object.isRequired,
     setSuccess: PropTypes.func.isRequired,
     setConfirm: PropTypes.func.isRequired,
-    setId: PropTypes.func.isRequired
+    setId: PropTypes.func.isRequired,
+    allowIdSet: PropTypes.bool.isRequired,
+    changeId: PropTypes.func.isRequired,
 }
 
 export default Survey;

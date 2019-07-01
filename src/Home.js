@@ -49,30 +49,23 @@ class Home extends Component {
         this.setState({confirm:value})
     }
     setId = (value) => {
-        localStorage.setItem('id', value)
-        this.setState({id:value})
+        if(value !== -1){
+            localStorage.setItem('id', value)
+            this.setState({id:value})
+        }
     }
 
     goHome = () => {
         this.setState({template: {},success: false,})
     }
-    handleIdChange = (e) =>{
-        this.setState({tempId:e})
-    }
+
 
     render() {
+        let allowSetId = !localStorage.id || localStorage.id < 1 && !this.state.template.generate_id
         return (
             <div className="Home">
                 <h1 onClick={this.goHome}>Survey Rhino</h1>
                 {localStorage.id && localStorage.id > 0 && <h3>{`Your ID is ${localStorage.id}`}</h3>}
-                {!localStorage.id || localStorage.id < 1 &&
-                    <div>
-                        <h3>{`Please Enter Your ID`}</h3>
-                        <div className={'insert-parent'}>
-                            <input type={'number'} className={'insert-id'} onChange={(e) => {this.handleIdChange(e.target.value)}}/>
-                            <button className={'insert-button'} onClick={() => {this.setId(this.state.tempId)}}>Set ID</button>
-                        </div>
-                    </div>}
                 <div className={'body'}>
                     {!this.state.success && this.isEmpty(this.state.template) &&<div className={'top-100'}>
                         {this.state.surveys.map( (template) => {
@@ -81,7 +74,7 @@ class Home extends Component {
                         )
                     })}
                     </div>}
-                    {!this.state.success && !this.isEmpty(this.state.template) && <Survey template={this.state.template} setSuccess={this.setSuccess} setConfirm={this.setConfirm} setId={this.setId}/>}
+                    {!this.state.success && !this.isEmpty(this.state.template) && <Survey template={this.state.template} setSuccess={this.setSuccess} setConfirm={this.setConfirm} setId={this.setId} allowIdSet={allowSetId}/>}
                     {this.state.success && <Success id={this.state.id} confirm={this.state.confirm} setConfirm={this.setConfirm}/>}
                 </div>
             </div>

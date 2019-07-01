@@ -3,6 +3,7 @@
 // Import react
 import React, { Component } from 'react';
 import {integratedBackend} from './backend'
+import ChartPanel from './ChartPanel'
 
 class Results extends Component {
     constructor() {
@@ -50,13 +51,19 @@ class Results extends Component {
             //Inner loop to create children
             for (let j = 0; j < 10; j++) {
                 let current = (i*10)+j+1
-                children.push(<td className={surveyIds.includes(current.toString()) ? 'green' : 'red'}>{current}</td>)
+                children.push(<td className={`border-background ${surveyIds.includes(current.toString()) ? 'green' : 'red'}`}>{current}</td>)
             }
             //Create the parent and add the children
             table.push(<tr>{children}</tr>)
         }
         return table
     }
+
+    // findByValue = (array, name) => {
+    //     let array.filter((survey)=>{
+    //         return survey.surveyname === name
+    //     })[0]
+    // }
     
     render() {
         return (
@@ -68,14 +75,16 @@ class Results extends Component {
                         {this.state.surveys.map( (template) => {return <option>{template.surveyname}</option>})}
                     </select>
 
-                    {this.state.results.length > 0 && <div>
-                        <div>
-                            <button className={'button-submit'} onClick={()=>{this.setState({group:'results'})}}> Results Table</button>
-                            <button className={'button-submit'} onClick={()=>{this.setState({group:'id'})}}> Id Table</button>
+                    {this.state.results.length > 0 && <div className={'results-area'}>
+                        <div className={'tool-bar width-60'}>
+                            <button className={'border-left button-toolbar'} onClick={()=>{this.setState({group:'results'})}}> Results Table</button>
+                            <button className={'button-toolbar'} onClick={()=>{this.setState({group:'id'})}}> Id Table</button>
+                            {/*<button className={'button-toolbar'} onClick={()=>{this.setState({group:'chart'})}}> Charts</button>*/}
+                            <button className={'border-right button-toolbar refresh'} onClick={async () => {await this.refreshSurveys(this.state.name)}}> Refresh </button>
                         </div>
-                        <button className={'refresh'} onClick={async () => {await this.refreshSurveys(this.state.name)}}> Refresh </button>
-                        <div>{`Count: ${this.state.results.length}`}</div>
-                        {this.state.group === 'results' && <table className={'results width-80'}>
+                        <h3>{`Survey Count: ${this.state.results.length}`}</h3>
+                        {this.state.group === 'chart' && <ChartPanel surveys={this.state.results} template={this.findByValue(this.state.surveys)}/>}
+                        {this.state.group === 'results' && <table className={'results-table width-80'}>
                             <tr>
                                 <th>Id</th>
                                 {this.state.results[0].results.map((option) => {return(<th>{option.name}</th>)})}
@@ -86,11 +95,11 @@ class Results extends Component {
                         </table>}
                         {this.state.group === 'id' && <div className={'width-80'}>
                             <table>
-                                <tbody>
+                                <tbody className={'border-background'}>
                                     {this.createTable(this.state.results)}
                                 </tbody>
                             </table>
-                        </div>}
+                        </div> }
                     </div>}
                 </div>
             </div>
