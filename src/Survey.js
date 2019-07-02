@@ -16,6 +16,7 @@ class Survey extends Component {
             results: [],
             required: [],
             tempId: -1,
+            errorId: false,
         }
     }
 
@@ -123,18 +124,21 @@ class Survey extends Component {
         } else if(input.type === 'matrix'){
             return(
                 <div className={`choice textbox width-80`} id={`input-${index}`}>
+                    <h3> Rate your satisfaction with the following items</h3>
                     <table className={'matrix-desktop'}>
                         <tr>
                             <th>Options</th>
                             {input.options.map((option) => {return(<th>{option.text}</th>)})}
                         </tr>
                         {input.values.map((value)=>{
+                            let emojis = ['😫','😟','😐','😀','😁']
                             return(<tr>
                                 <td className={`${value.blank ? 'blank' : ''}`}>{value.name}</td>
                                 {input.options.map((option)=>{
                                     return(
-                                        <td >
-                                            <input type={'radio'} onChange={(e) => {this.handleChange(e, value.name, 'Matrix')}} name={value.name} value={option.value}/>
+                                        <td className={'matrix-selection'}>
+                                            <input id={`${value.name}-${option.value}`} type={'radio'} onChange={(e) => {this.handleChange(e, value.name, 'Matrix')}} name={value.name} value={option.value}/>
+                                            <label htmlFor={`${value.name}-${option.value}`} className={'matrix-cell'}>{emojis[parseInt(option.value)-1]}</label>
                                         </td>
                                     )
                                 })}
@@ -185,6 +189,10 @@ class Survey extends Component {
         let stopPost = false
         let template = this.state.template
         let results = this.state.results
+        if(!this.props.template.generateid && (!localStorage.id || localStorage.id < 1)){
+            this.setState({errorId:true})
+            stopPost = true
+        }
         for (let item in results){
             if(template[item].optional === false){
                 if(typeof results[item].results === 'string' && (results[item].results === "" || results[item].results === null || results[item].results === undefined)){
@@ -241,6 +249,7 @@ class Survey extends Component {
     }
 
     render() {
+        console.log('=====================>', this.state.errorId)
         return (
             <div className="Survey">
                 <h3 className={'survey-name'}>{this.state.name}</h3>
@@ -255,6 +264,7 @@ class Survey extends Component {
                 {this.state.template.map((input, index)=>{
                     return this.createSurvey(input, index, null)
                 })}
+                {this.state.errorId && <div className={'notice-red width-60'}>Please Set Id</div>}
                 <button className={'width-60 button-submit'} onClick={this.handleSubmit}>Submit Survey</button>
                 <div className={'bottom16'}>🐿</div>
             </div>

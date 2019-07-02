@@ -61,7 +61,7 @@ class Home extends Component {
 
 
     render() {
-        let allowSetId = !localStorage.id || localStorage.id < 1 && !this.state.template.generate_id
+        let allowSetId = !localStorage.id || localStorage.id < 1 && !this.state.template.generateid
         return (
             <div className="Home">
                 <h1 onClick={this.goHome}>Survey Rhino</h1>

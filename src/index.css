@@ -196,6 +196,32 @@ h3{
     background-color: #336699;
 }
 
+.matrix-selection {
+    border-top: none;
+    color: #ffffff;
+    cursor: pointer;
+    align-items: stretch;
+    padding:0;
+    margin: 0;
+}
+.matrix-cell{
+    display: block;
+    padding:4px;
+    text-align: center;
+    min-width:72px;
+}
+.matrix-selection > .matrix-cell:hover {
+    background-color: #832433;
+}
+
+.matrix-selection input[type=radio]:checked ~ .matrix-cell {
+    background-color: #336699;
+}
+
+.matrix-selection input[type=radio] {
+    display: none;
+}
+
 .border-bottom{
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
@@ -419,15 +445,17 @@ tr:nth-of-type(odd) {
 tr:nth-of-type(even) {
     color: #eee;
 }
-th {
-    background: #333;
-    color: white;
-    font-weight: bold;
-}
 td, th {
     padding: 6px;
     border: 1px solid #ccc;
     text-align: left;
+}
+
+th {
+    background: #333;
+    color: white;
+    font-weight: bold;
+    text-align: center;
 }
 
 td.blank{
