@@ -235,7 +235,7 @@ class Survey extends Component {
             console.log("POSTING THE SURVEY SIR")
             let success = await integratedBackend.postSurvey(this.state.name, results, localStorage.id ? localStorage.id : -1)
             if (success.status === 200) {
-                if(this.props.template.generate_id){
+                if(this.props.template.generateid){
                     this.props.setConfirm(true)
                     this.props.setId(this.formatNumberLength(success.data.data.id, 5))
                 }
