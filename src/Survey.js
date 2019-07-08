@@ -251,7 +251,6 @@ class Survey extends Component {
     }
 
     render() {
-        console.log('=====================>', this.state.errorId)
         return (
             <div className="Survey">
                 <h3 className={'survey-name'}>{this.state.name}</h3>
