@@ -13,7 +13,9 @@ const setDataBase = () => {
         return pgp({
             database: 'survey-app',
             port: 5432,
-            host: 'localhost'
+            host: 'localhost', 
+            user: 'postgres',
+            password: 'test'
         })
     }
     else if (process.env.NODE_ENV === 'production'){

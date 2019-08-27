@@ -43,8 +43,6 @@ strong{
     align-items: center;
 }
 
-
-
 h1{
     margin-top: 10%;
     color: #c5c6c7;
@@ -414,10 +412,6 @@ h3{
 * Table Styling
  */
 
-.matrix-desktop{
-    display: block;
-}
-
 .matrix-mobile{
     display: none;
 }
@@ -585,7 +579,243 @@ td.blank{
     border: 2px solid #45a29e;
     resize: none;
 }
+/* The Garbage css section :D */
 
+.radioButton .buttonText{
+    display: inline-block;
+    width:auto;
+    border: solid 2px #45a29e;
+    color: #ffffff;
+    padding: 8px;
+    cursor: pointer;
+    align-items: stretch;
+    text-align:center;
+}
+
+.radioButton .buttonText:hover {
+    background-color: #832433;
+}
+
+.radioButton input[type=radio] {
+    display: none;
+}
+
+.radioButton input[type=radio]:checked ~ label .buttonText {
+    background-color: #336699;
+}
+
+.width-optionsAlign{
+    width:127px !important;
+}
+
+.width-optionsStyle{
+    width: 201px !important;
+}
+.width-question{
+    width: 636px !important;
+}
+.width-questionAnswer{
+    min-width: 180px !important;
+}
+
+
+
+.test4{
+    color:white;
+    border: solid 2px #45a29e;
+}
+
+
+
+.questionBox{
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+    align-items: center;
+    border: solid 2px #45a29e;
+}
+
+.width-100{
+    width: 100% !important;
+}
+
+.width-25{
+    width: 25%;
+}
+
+.width-30{
+    width: 30% !important;
+}
+
+.width-auto{
+    width: auto !important;
+}
+
+.optionsAlign{
+    width:87% !important;
+    padding:7px !important;
+    text-align:center !important;
+}
+
+.createNewSR{
+    width: 80%;
+    min-height: 30%;
+    height: 10%;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.test{
+    color: white;
+}
+
+.QuestionType{
+    color: white;
+    width: 80%;
+    min-height: 6%;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.surveyOptions{
+    justify-content: center;
+    display: inline-flex;
+    margin-top: 8px;
+    width: 55%;
+}
+
+.buttonGroup{
+    margin-top: 0; 
+}
+
+.surveyOptions .selection{
+    border-top: solid 2px #45a29e;
+    width: 50%;
+}
+
+.CreateSurvey{
+    margin-bottom: 16px;
+    font-size: 40px;
+    color: #45a29e;
+}
+
+.headerQuestion{
+    background-color: #45a29e;
+    font-size: 1.2em;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    margin-top: 30;
+    color: black;
+}
+.requiredCSS{
+    width: 55%;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+    height: 34px;
+    min-height: 34px;
+    justify-content: center;
+}
+
+.questionBox>.surveyOptions{
+    justify-content: center;
+    display: inline-flex;
+    margin-top: 8px;
+    width: 95%;
+}
+
+.questionBox>.requiredCSS{
+    width: 95%;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+    height: 34px;
+    min-height: 34px;
+    justify-content: center;
+}
+
+.additionalOptions{
+    width:95%
+}
+
+.test3{
+    display: flex;
+    border: solid 2px #45a29e;
+    border-top: none;
+    color: #ffffff;
+    height: 24;
+    cursor: pointer;
+    align-items: stretch;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    padding-top: 6px;
+}
+.test3:hover{
+    background-color: #832433;
+}
+.choice .selection input[type=radio]:checked ~ label .test3 {
+    background-color: #336699;
+}
+.otherSide{
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.box{
+    background-color: #45a29e;
+    font-size: 18px;
+    min-width: 130px;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+}
+.question{
+    font-size: 1.2em;
+    width: 1100;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.test2{
+    width: 60%;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+    height: 34px;
+    min-height: 34px;
+    justify-content: center;
+}
+
+.requiredQuestion{
+    width: 50%;
+    background-color: #45a29e;
+    font-size: 18px;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+}
+.postButton{
+    padding: px;
+}
 
 
 @media only screen and (max-width: 900px){
