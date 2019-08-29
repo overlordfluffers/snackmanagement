@@ -26,8 +26,8 @@ SurveyTemplate.findById = (id) => {
 };
 
 // Insert a surveytemplate results into the database
-SurveyTemplate.addSurveyTemplates = (surveyname, template) => {
-    return db.none('INSERT INTO surveytemplates(surveyname, template) VALUES($1, $2)', [surveyname, template])
+SurveyTemplate.addSurveyTemplate = (generateId, surveyname, template) => {
+    return db.none('INSERT INTO surveytemplates(generateId ,surveyname, template) VALUES($1, $2, $3)', [generateId, surveyname, JSON.stringify(template)])
 }
 
 // Export the SurveyTemplate object

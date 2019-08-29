@@ -23,6 +23,16 @@ class Backend {
         });
     }
 
+    postTemplate = (generateId, surveyName, template) => {
+        return axios.post('/api/template/addTemplate',{
+            generateId: generateId,
+            surveyname: surveyName,
+            template: template
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
     fetchSurveyByName = (name) => {
         return axios({
             method: 'GET',

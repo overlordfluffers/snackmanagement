@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AdditionalOptions from './AdditionalOptions';
 import SurveyQuestions from './SurveyQuestion'
+import {PropTypes} from "prop-types"
 import {isEqual} from 'lodash'
 
 
@@ -13,6 +14,8 @@ class InputBar extends Component{
             // for string answer ''
             // for true/false statements add true, false, or boolean
             questions: [],
+            surveyName: '',
+            generateId: undefined,
             questionValue:'',
             buttonChoice: '',
             optional: undefined,
@@ -44,7 +47,7 @@ class InputBar extends Component{
                 type: 'radio',
                 optional: this.state.optional,
                 align: this.state.components.align,
-                options: this.lysol(this.state.components.options)
+                options: this.cleaner(this.state.components.options)
             } 
         }else if (this.state.buttonChoice === 'Checkbox'){
             question =  {
@@ -52,7 +55,7 @@ class InputBar extends Component{
                 type: 'checkbox',
                 optional: this.state.optional,
                 align: this.state.components.align,
-                options: this.lysol(this.state.components.options)
+                options: this.cleaner(this.state.components.options)
             }
         }else if (this.state.buttonChoice === 'Matrix'){
             question = {
@@ -60,8 +63,8 @@ class InputBar extends Component{
                 type: 'matrix',
                 optional: this.state.optional,
                 style: this.state.components.style,
-                options: this.lysol(this.state.components.scaleOptions),
-                values: this.lysol(this.state.components.value)
+                options: this.cleaner(this.state.components.scaleOptions),
+                values: this.cleaner(this.state.components.value)
             }
         }else if (this.state.buttonChoice === 'Scale'){
             question = {
@@ -69,7 +72,7 @@ class InputBar extends Component{
                 type: 'scale',
                 optional: this.state.optional,
                 align: this.state.components.align,
-                options: this.lysol(this.state.components.scaleOptions)
+                options: this.cleaner(this.state.components.scaleOptions)
             }
         }else if (this.state.buttonChoice === 'Dropdown'){
             question = {
@@ -77,7 +80,7 @@ class InputBar extends Component{
                 type: 'dropdown',
                 optional: this.state.optional,
                 style: this.state.components.style,
-                options: this.lysol(this.state.components.options)
+                options: this.cleaner(this.state.components.options)
             }
         }else if (this.state.buttonChoice === 'CommentBox'){
             question = {
@@ -90,31 +93,40 @@ class InputBar extends Component{
             canPost = false
         }
         if(canPost){
-           this.state.questions.push(question)
-           this.setState({questions: this.state.questions, questionValue:'', optional:undefined, buttonChoice:''})
+           let questions = this.state.questions
+           questions.push(question)
+           this.props.setQuestions(questions)
+           this.setState({questions: questions, questionValue:'', optional:undefined, buttonChoice:''})
         }
     }
 
-    // function that allows for when an even happens to reset the values to something new
     handleChange = (event) => {
         this.setState({questionValue:event.target.value})
+    }
+
+    getName = (event) => {
+        this.setState({surveyName:event.target.value})
+        this.props.setSurveyName(event.target.value)
+    }
+
+    getId = (generateId) => {
+        this.setState({generateId})
+        this.props.setId(generateId)
     }
 
     handleOptions = (optional) => {
         this.setState({optional})
     }
 
-    // a function that calls upon a string to set the value of it to something
     whichButton = (buttonChoice) => {
         this.setState({buttonChoice})
     }
 
     getComponents = (components) => {
         this.setState({components})
-        console.log(this.state.components)
     }
 
-    lysol = (array) => {
+    cleaner = (array) => {
         return array.filter(object => {
             return (object !== '' && !_.isEqual(object, {name:""}) && !_.isEqual(object, {value:"",text:""}))
         })
@@ -123,23 +135,23 @@ class InputBar extends Component{
     render(){
         return (
             <div className="body">
-                <h3 className="CreateSurvey" maxlength="64">Create Survey</h3>
+                <h3 className="CreateSurvey" maxLength="64">Create Survey</h3>
                 <div className="requiredCSS">
-                    <div className="box">Survey Name:</div>
-                    <input className="question"/>
+                    <div className="box">Survey Name*:</div>
+                    <input className="question" maxLength="64" value={this.state.surveyName} onChange={(e) => {this.getName(e)}}/>
                 </div>
                 <div className="requiredCSS">
-                    <div className="requiredQuestion">Create ID</div>
+                    <div className="requiredQuestion">Create ID*</div>
                     <div className="surveyOptions buttonGroup  choice">
                         <div className={'selection'}>
-                            <input type="radio" name={"ID"} id={"IDYes"} name="ID" value=''/>
+                            <input type="radio" id={"IDYes"} name="ID" value={true} checked={this.state.generateId===true} onClick={() => {this.getId(true)}}/>
                             <label htmlFor={'IDYes'}>
                                 <div className="test3 question-type">Yes</div>
                             </label>
                             <br/>
                         </div>
                         <div className={'selection'}>
-                            <input type="radio" name={"ID"} id={"IDNo"} name="ID" value=''/>
+                            <input type="radio" id={"IDNo"} name="ID" value={false} checked={this.state.generateId===false}  onClick={() => {this.getId(false)}}/>
                             <label htmlFor={'IDNo'}>
                                 <div className="test3 question-type">No</div>
                             </label>
@@ -156,7 +168,7 @@ class InputBar extends Component{
                     </div>
 
                     <div className="requiredCSS frankie">
-                        <div className="requiredQuestion">Is this question Required*</div>
+                        <div className="requiredQuestion">Question Required*</div>
                         <div className="surveyOptions buttonGroup choice">
                             <div className={'selection'}>
                                 <input type="radio" id={"False"} name="optional" value='false' checked={this.state.optional===false} onChange={() => {this.handleOptions(false)}}/>
@@ -230,17 +242,15 @@ class InputBar extends Component{
                 </div>
 
                 <br/>
-                
-                {this.state.questions &&
-                    this.state.questions.map((buttonClicked, index) => {
-                        return( 
-                                <SurveyQuestions input={buttonClicked} index={index} groupName={null} handleChange={()=>{}}/>
-                        )
-                    })
-                }
             </div>
         )
     }
+}
+
+InputBar.propTypes = {
+    setQuestions: PropTypes.func.isRequired,
+    setSurveyName: PropTypes.func.isRequired,
+    setId: PropTypes.func.isRequired
 }
 
 export default InputBar;

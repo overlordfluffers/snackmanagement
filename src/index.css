@@ -581,6 +581,68 @@ td.blank{
 }
 /* The Garbage css section :D */
 
+
+
+.item-a{
+    grid-area: header;
+}
+.item-b{
+    grid-area: main;
+    display: flex;
+    width: 100%;
+}
+.item-c{
+    grid-area: display;
+    display: flex;
+    width: 100%;
+    height: 75vh;
+}
+.item-d{
+    grid-area: post;
+    align-self: center;
+    place-content: center;
+    display: flex;
+    width: 100%;
+}
+.item-e{
+    grid-area: box;
+    align-self: center;
+    place-content: center;
+    display: flex;
+    width: 100%;
+}
+
+.container{
+    display:grid;
+    justify-items: center;
+    height: 100vh;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 10% auto 5% 5%;
+    grid-row-gap: 10px;
+    grid-template-areas: 
+        "header header"
+        "main display"
+        "box box"
+        "post post";
+}
+
+.area{
+    border: solid 2px #45a29e;
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+    overflow-y: scroll;
+    height: 75vh;
+}
+
+.notDone{
+    border: solid 2px #45a29e;
+    padding: 10px;
+}
+
+
+
+
 .radioButton .buttonText{
     display: inline-block;
     width:auto;
@@ -605,11 +667,11 @@ td.blank{
 }
 
 .width-optionsAlign{
-    width:127px !important;
+    width:100px !important;
 }
 
 .width-optionsStyle{
-    width: 201px !important;
+    width: 170px !important;
 }
 .width-question{
     width: 636px !important;
@@ -630,7 +692,7 @@ td.blank{
 .questionBox{
     display: flex;
     flex-direction: column;
-    width: 55%;
+    width: 60%;
     align-items: center;
     border: solid 2px #45a29e;
 }
@@ -774,7 +836,7 @@ td.blank{
 .box{
     background-color: #45a29e;
     font-size: 18px;
-    min-width: 130px;
+    min-width: 160px;
     padding: 8px;
     display: flex;
     justify-content: center;

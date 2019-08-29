@@ -45,7 +45,7 @@ surveyTemplateController.findById = (req, res) => {
 // Controller method for inserting a surveyTemplate into the table
 surveyTemplateController.addSurveyTemplate = (req, res) => {
     // SurveyTemplates method for adding a result to the server
-    SurveyTemplate.addSurveyTemplate(req.body.surveyname, req.body.template)
+    SurveyTemplate.addSurveyTemplate(req.body.generateId, req.body.surveyname, req.body.template)
         .then(not =>{
             res.status(200).json();
             return true

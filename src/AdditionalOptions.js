@@ -81,6 +81,7 @@ class AdditionalOptions extends Component{
                                 <br/>
                             </div>
                         </div>
+                        <br/>
                     </div>
                 }
 
@@ -103,6 +104,7 @@ class AdditionalOptions extends Component{
                             </label>
                             <br/>
                         </div>
+                        <br/>
                     </div>
                 }
 
@@ -124,6 +126,7 @@ class AdditionalOptions extends Component{
                             ))
                             }
                         </table>
+                        <br/>
                     </div>
                 }
 
@@ -176,6 +179,7 @@ class AdditionalOptions extends Component{
                             ))
                             }
                         </table>
+                        <br/>
                     </div>
                 }
             </div>
