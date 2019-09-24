@@ -20,8 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // API Routes
-app.use('/api/surveys', require('./routes/survey-routes'));
-app.use('/api/template', require('./routes/surveyTemplate-routes'));
+app.use('/api/snack', require('./routes/snack-routes'));
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname + '/index.html'))
