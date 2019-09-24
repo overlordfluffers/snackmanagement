@@ -1,7 +1,6 @@
 // Import react and the component class
 import React, { Component } from 'react';
-// Import BrowserRouter
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Home from './Home'
 import Results from './Results'
 import CreateNew from './createNew'
@@ -13,9 +12,11 @@ class App extends Component {
         return (
             <Router>
                 <div className="App">
+                  <Switch>
                     <Route exact path="/" component={Home} />
-                    <Route exact path="/results" component={Results} />
-                    <Route exact path="/createNew" component={CreateNew}/>
+                    <Route path='/results/:id' component={Results} />
+                    <Route path="/createNew" component={CreateNew}/>
+                  </Switch>
                 </div>
             </Router>
         )

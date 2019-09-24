@@ -11,11 +11,11 @@ const pgp = require('pg-promise')(options);
 const setDataBase = () => {
     if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV){
         return pgp({
-            database: 'survey-app',
+            database: 'snackbar',
             port: 5432,
-            host: 'localhost', 
+            host: 'localhost',
             user: 'postgres',
-            password: 'test'
+            password: ''
         })
     }
     else if (process.env.NODE_ENV === 'production'){

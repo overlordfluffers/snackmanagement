@@ -6,6 +6,7 @@ import Survey from './Survey'
 import {integratedBackend} from './backend'
 import CreateTemplate from './CreateTemplate'
 import Success from './Success'
+import {Link} from 'react-router-dom'
 
 class Home extends Component {
     constructor() {
@@ -77,6 +78,7 @@ class Home extends Component {
                     {!this.state.success && !this.isEmpty(this.state.template) && <Survey template={this.state.template} setSuccess={this.setSuccess} setConfirm={this.setConfirm} setId={this.setId} allowIdSet={allowSetId}/>}
                     {this.state.success && <Success id={this.state.id} confirm={this.state.confirm} setConfirm={this.setConfirm}/>}
                 </div>
+                <Link to={`/results/5`}>Fucking go to 5</Link>
             </div>
         )
     }

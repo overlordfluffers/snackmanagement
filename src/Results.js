@@ -66,6 +66,7 @@ class Results extends Component {
     // }
     
     render() {
+        console.log('=====================>', this.props.match)
         return (
             <div className="Results">
                 <h1>Survey Rhino</h1>
